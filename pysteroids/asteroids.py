@@ -14,10 +14,11 @@ player_ship = pyglet.sprite.Sprite(
     img=resources.player_image, x=400, y=300, batch=main_batch)
 asteroids = load.asteroids(3, player_ship.position, main_batch)
 
+lives = load.player_lives(3, main_batch)
+
 
 @game_window.event
 def on_draw():
-    print "drawing"
     game_window.clear()
     main_batch.draw()
 
