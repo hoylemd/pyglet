@@ -8,6 +8,7 @@ class PhysicalObject(pyglet.sprite.Sprite):
         super(PhysicalObject, self).__init__(*args, **kwargs)
 
         self.velocity_x, self.velocity_y = 0.0, 0.0
+        self.rotation_speed = 0.0
 
     def loop_position(self):
         x_min_margin = - self.image.width / 2
@@ -28,5 +29,7 @@ class PhysicalObject(pyglet.sprite.Sprite):
     def update(self, dt):
         self.x += self.velocity_x * dt
         self.y += self.velocity_y * dt
+
+        self.rotation += (self.rotation_speed * dt) % 360
 
         self.loop_position()

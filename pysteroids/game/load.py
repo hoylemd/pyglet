@@ -23,8 +23,10 @@ def asteroids(num_asteroids, player_position, batch=None):
             img=resources.asteroid_image, x=asteroid_x, y=asteroid_y,
             batch=batch)
         new_asteroid.rotation = random.randint(0, 360)
+
         new_asteroid.velocity_x = random.random() * 40
         new_asteroid.velocity_y = random.random() * 40
+        new_asteroid.rotation_speed = random.random() * 60
 
         asteroids.append(new_asteroid)
 
