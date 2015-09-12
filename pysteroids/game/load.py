@@ -2,6 +2,7 @@ import pyglet
 import random
 import resources
 import utils
+from physicalobject import PhysicalObject
 from settings import (
     WINDOW_WIDTH, WINDOW_HEIGHT, LIVES_VERTICAL_OFFSET, LIVES_HORIZONTAL_OFFSET
     )
@@ -17,10 +18,12 @@ def asteroids(num_asteroids, player_position, batch=None):
             asteroid_x = random.randint(0, WINDOW_WIDTH)
             asteroid_y = random.randint(0, WINDOW_HEIGHT)
 
-        new_asteroid = pyglet.sprite.Sprite(
+        new_asteroid = PhysicalObject(
             img=resources.asteroid_image, x=asteroid_x, y=asteroid_y,
             batch=batch)
         new_asteroid.rotation = random.randint(0, 360)
+        new_asteroid.velocity_x = random.random() * 40
+        new_asteroid.velocity_y = random.random() * 40
 
         asteroids.append(new_asteroid)
 
