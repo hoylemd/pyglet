@@ -3,6 +3,7 @@ import random
 import resources
 import utils
 from physicalobject import PhysicalObject
+from player import Player
 from settings import (
     WINDOW_WIDTH, WINDOW_HEIGHT,
     LIVES_VERTICAL_OFFSET, LIVES_HORIZONTAL_OFFSET,
@@ -34,9 +35,8 @@ def asteroids(num_asteroids, player_position, batch=None):
 
 
 def player_ship(batch=None):
-    return PhysicalObject(
-        img=resources.player_image, x=WINDOW_HORIZONTAL_CENTER,
-        y=WINDOW_VERTICAL_CENTER, batch=batch)
+    return Player(x=WINDOW_HORIZONTAL_CENTER,
+                  y=WINDOW_VERTICAL_CENTER, batch=batch)
 
 
 def player_lives(num_icons, batch=None):
