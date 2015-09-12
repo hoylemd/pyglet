@@ -25,7 +25,8 @@ class PhysicalObject(pyglet.sprite.Sprite):
         elif self.y > y_max_margin:
             self.y = y_min_margin
 
-
     def update(self, dt):
         self.x += self.velocity_x * dt
         self.y += self.velocity_y * dt
+
+        self.loop_position()

@@ -4,8 +4,9 @@ import resources
 import utils
 from physicalobject import PhysicalObject
 from settings import (
-    WINDOW_WIDTH, WINDOW_HEIGHT, LIVES_VERTICAL_OFFSET, LIVES_HORIZONTAL_OFFSET
-    )
+    WINDOW_WIDTH, WINDOW_HEIGHT,
+    LIVES_VERTICAL_OFFSET, LIVES_HORIZONTAL_OFFSET,
+    WINDOW_HORIZONTAL_CENTER, WINDOW_VERTICAL_CENTER)
 
 
 def asteroids(num_asteroids, player_position, batch=None):
@@ -28,6 +29,12 @@ def asteroids(num_asteroids, player_position, batch=None):
         asteroids.append(new_asteroid)
 
     return asteroids
+
+
+def player_ship(batch=None):
+    return PhysicalObject(
+        img=resources.player_image, x=WINDOW_HORIZONTAL_CENTER,
+        y=WINDOW_VERTICAL_CENTER, batch=batch)
 
 
 def player_lives(num_icons, batch=None):
