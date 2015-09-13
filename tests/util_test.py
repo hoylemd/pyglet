@@ -1,4 +1,4 @@
-import pysteroids.game.utils as utils
+import game.utils as utils
 
 
 def test_distance__x_only():

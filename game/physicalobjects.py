@@ -1,6 +1,6 @@
 import pyglet
 from settings import WINDOW_WIDTH, WINDOW_HEIGHT
-import utils
+import game.utils as utils
 
 
 class InertialObject(pyglet.sprite.Sprite):
@@ -12,8 +12,8 @@ class InertialObject(pyglet.sprite.Sprite):
         self.rotation_speed = 0.0
 
     def loop_position(self):
-        x_min_margin = - self.image.width / 2
-        y_min_margin = - self.image.height / 2
+        x_min_margin = - self.image.width / 2.0
+        y_min_margin = - self.image.height / 2.0
         x_max_margin = WINDOW_WIDTH - x_min_margin
         y_max_margin = WINDOW_HEIGHT - y_min_margin
 
