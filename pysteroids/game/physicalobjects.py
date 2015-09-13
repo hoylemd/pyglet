@@ -1,11 +1,12 @@
 import pyglet
 from settings import WINDOW_WIDTH, WINDOW_HEIGHT
+import utils
 
 
-class PhysicalObject(pyglet.sprite.Sprite):
+class InertialObject(pyglet.sprite.Sprite):
 
     def __init__(self, *args, **kwargs):
-        super(PhysicalObject, self).__init__(*args, **kwargs)
+        super(InertialObject, self).__init__(*args, **kwargs)
 
         self.velocity_x, self.velocity_y = 0.0, 0.0
         self.rotation_speed = 0.0
@@ -30,6 +31,6 @@ class PhysicalObject(pyglet.sprite.Sprite):
         self.x += self.velocity_x * dt
         self.y += self.velocity_y * dt
 
-        self.rotation += (self.rotation_speed * dt) % 360
+        self.rotation += utils.normalize_degrees((self.rotation_speed * dt))
 
         self.loop_position()

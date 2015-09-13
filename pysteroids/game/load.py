@@ -2,7 +2,7 @@ import pyglet
 import random
 import resources
 import utils
-from physicalobject import PhysicalObject
+from physicalobjects import InertialObject
 from player import Player
 from settings import (
     WINDOW_WIDTH, WINDOW_HEIGHT,
@@ -20,7 +20,7 @@ def asteroids(num_asteroids, player_position, batch=None):
             asteroid_x = random.randint(0, WINDOW_WIDTH)
             asteroid_y = random.randint(0, WINDOW_HEIGHT)
 
-        new_asteroid = PhysicalObject(
+        new_asteroid = InertialObject(
             img=resources.asteroid_image, x=asteroid_x, y=asteroid_y,
             batch=batch)
         new_asteroid.rotation = random.randint(0, 360)
@@ -35,8 +35,9 @@ def asteroids(num_asteroids, player_position, batch=None):
 
 
 def player_ship(batch=None):
-    return Player(x=WINDOW_HORIZONTAL_CENTER,
-                  y=WINDOW_VERTICAL_CENTER, batch=batch)
+    player_ship = Player(x=WINDOW_HORIZONTAL_CENTER,
+                         y=WINDOW_VERTICAL_CENTER, batch=batch)
+    return player_ship
 
 
 def player_lives(num_icons, batch=None):

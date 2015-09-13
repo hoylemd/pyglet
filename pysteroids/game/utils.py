@@ -17,7 +17,6 @@ def normalize_degrees(angle):
     magnitude %= 360.0
     magnitude *= direction
 
-    print magnitude
     if magnitude < 0:
         magnitude = 360.0 + magnitude
 
