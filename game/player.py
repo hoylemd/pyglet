@@ -1,13 +1,11 @@
 import math
 from pyglet.window import key
 from physicalobjects import InertialObject
-import resources
 
 
 class Player(InertialObject):
-    def __init__(self, x=0.0, y=0.0, *args, **kwargs):
-        super(Player, self).__init__(
-            img=resources.player_image, x=x, y=y, *args, **kwargs)
+    def __init__(self, img=None, x=0.0, y=0.0, *args, **kwargs):
+        super(Player, self).__init__(img=img, x=x, y=y, *args, **kwargs)
 
         self.thrust = 300.0
         self.maneuvering_thrust = 360

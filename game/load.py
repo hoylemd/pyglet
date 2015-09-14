@@ -35,7 +35,8 @@ def asteroids(num_asteroids, player_position, batch=None):
 
 
 def player_ship(batch=None):
-    player_ship = Player(x=WINDOW_HORIZONTAL_CENTER,
+    player_ship = Player(img=resources.player_image,
+                         x=WINDOW_HORIZONTAL_CENTER,
                          y=WINDOW_VERTICAL_CENTER, batch=batch)
     return player_ship
 
