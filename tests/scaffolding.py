@@ -14,3 +14,11 @@ center_image(player_image)
 fixtures = {
     'player_image': player_image
 }
+
+
+def fps_to_s(fps):
+    return 1.0 / fps
+
+
+def eq_within_epsilon(value, expected, epsilon=0.01):
+    return abs(expected - value) < epsilon

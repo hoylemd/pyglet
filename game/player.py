@@ -4,7 +4,7 @@ from physicalobjects import InertialObject
 
 
 class Player(InertialObject):
-    def __init__(self, x=0.0, y=0.0, thrust=300.0,
+    def __init__(self, x=0.0, y=0.0, thrust=200.0,
                  maneuvering_thrust=360.0, *args, **kwargs):
 
         super(Player, self).__init__(x=x, y=y, *args, **kwargs)
@@ -45,24 +45,29 @@ class Player(InertialObject):
         rotational_dv = self.maneuvering_thrust * dt
         propulsive_dv = self.thrust * dt
 
+        modified_rot_speed = self.rotation_speed
         if self.keys['right']:
-            self.rotation_speed += rotational_dv
+            modified_rot_speed += rotational_dv
         if self.keys['left']:
-            self.rotation_speed -= rotational_dv
+            modified_rot_speed -= rotational_dv
+        if self.keys['down']:
+            direction = 1.0
+            if self.rotation_speed < 0:
+                direction = -1.0
+            abs_rotation = modified_rot_speed * direction
+            modified_rot_speed = direction * (abs_rotation - rotational_dv)
+            if (direction * modified_rot_speed) < 0:
+                modified_rot_speed = 0.0
+
+        # interpolate accellerated rotation change
+        self.rotation_speed = (modified_rot_speed + self.rotation_speed) / 2.0
+
         if self.keys['up']:
             angle_radians = math.radians(self.rotation)
             force_x = math.sin(angle_radians) * propulsive_dv
             force_y = math.cos(angle_radians) * propulsive_dv
             self.velocity_x += force_x
             self.velocity_y += force_y
-        if self.keys['down']:
-            direction = 1.0
-            if self.rotation_speed < 0:
-                direction = -1.0
-            abs_rotation = self.rotation_speed * direction
-            self.rotation_speed = direction * (abs_rotation - rotational_dv)
-            if (direction * self.rotation_speed) < 0:
-                self.rotation_speed = 0
 
         if self.signals['recenter']:
             self.x = self.center_x
@@ -74,3 +79,5 @@ class Player(InertialObject):
             self.signals['recenter'] = False
 
         super(Player, self).update(dt)
+
+        self.rotation_speed = modified_rot_speed
