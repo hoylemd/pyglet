@@ -4,11 +4,13 @@ from physicalobjects import InertialObject
 
 
 class Player(InertialObject):
-    def __init__(self, img=None, x=0.0, y=0.0, *args, **kwargs):
-        super(Player, self).__init__(img=img, x=x, y=y, *args, **kwargs)
+    def __init__(self, x=0.0, y=0.0, thrust=300.0,
+                 maneuvering_thrust=360.0, *args, **kwargs):
 
-        self.thrust = 300.0
-        self.maneuvering_thrust = 360
+        super(Player, self).__init__(x=x, y=y, *args, **kwargs)
+
+        self.thrust = thrust
+        self.maneuvering_thrust = maneuvering_thrust
 
         self.center_x = x
         self.center_y = y

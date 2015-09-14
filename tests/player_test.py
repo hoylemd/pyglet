@@ -3,8 +3,17 @@ from game.player import Player
 from game import resources
 
 
-def test_init__key_and_signals_false():
-    sut = Player(img=resources.player_image, x=200, y=300)
+def test_init__initial_values():
+    sut = Player(img=resources.player_image)
+
+    assert sut.thrust == 300.0
+    assert sut.maneuvering_thrust == 360.0
+
+    assert sut.x == 0.0
+    assert sut.y == 0.0
+
+    assert sut.center_x == 0.0
+    assert sut.center_y == 0.0
 
     for sut_key in sut.keys:
         assert not sut.keys[sut_key]
