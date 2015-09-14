@@ -22,6 +22,20 @@ def test_init__initial_values():
         assert not sut.signals[signal]
 
 
+def test_init__specified_values():
+    sut = Player(img=resources.player_image, x=123.4, y=421.54, thrust=150.0,
+                 maneuvering_thrust=500.0)
+
+    assert sut.thrust == 150.0
+    assert sut.maneuvering_thrust == 500.0
+
+    assert sut.x == 123.4
+    assert sut.y == 421.54
+
+    assert sut.center_x == 123.4
+    assert sut.center_y == 421.54
+
+
 def test_key_press__left():
     sut = Player(img=resources.player_image, x=200, y=300)
 
