@@ -3,6 +3,16 @@ from game.player import Player
 from game import resources
 
 
+def test_init__key_and_signals_false():
+    sut = Player(img=resources.player_image, x=200, y=300)
+
+    for sut_key in sut.keys:
+        assert not sut.keys[sut_key]
+
+    for signal in sut.signals:
+        assert not sut.signals[signal]
+
+
 def test_key_press__left():
     sut = Player(img=resources.player_image, x=200, y=300)
 
