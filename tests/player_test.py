@@ -157,22 +157,45 @@ def test_update__turn_left():
     assert eq_within_epsilon(sut.rotation, 337.5)
 
 
-def skip_update__SAS():
+def test_update__SAS():
     sut = set_up_sluggish_player()
+
+    # start turning
+    sut.on_key_press(key.RIGHT, None)
+
+    sut.update(1.0)  # one 60 fps frame
+
+    sut.on_key_release(key.RIGHT, None)
+
+    assert sut.rotation_speed == 15.0
+    assert eq_within_epsilon(sut.rotation, 7.5)
 
     # engage SAS
     sut.on_key_press(key.DOWN, None)
 
-    sut.update(1.0)  # stabilize for one second
+    sut.update(0.5)  # stabilize for half a second
 
-    assert sut.rotation_speed == 0.0
-    assert eq_within_epsilon(sut.rotation, 45.00)
+    assert sut.rotation_speed == 7.5
+    assert eq_within_epsilon(sut.rotation, 13.12)
 
     sut.on_key_release(key.DOWN, None)
 
-    sut.update(fps_to_s(60))
+    sut.update(0.5)  # drift for half a second
+
+    assert sut.rotation_speed == 7.5
+    assert eq_within_epsilon(sut.rotation, 16.87)
+
+    sut.on_key_press(key.DOWN, None)
+
+    sut.update(1.0)  # stabilize for a full second
 
     assert sut.rotation_speed == 0.0
+    assert eq_within_epsilon(sut.rotation, 20.62)
+
+
+def skip_other_stuff():
+    sut = set_up_sluggish_player()
+
     assert sut.rotation == 30.0
     assert sut.velocity_x == 0.0
     assert sut.velocity_y == 0.0
