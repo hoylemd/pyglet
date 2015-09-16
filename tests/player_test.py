@@ -115,7 +115,7 @@ def test_update__turn_right():
     # turn right
     sut.on_key_press(key.RIGHT, None)
 
-    sut.update(fps_to_s(60)) # one 60 fps frame
+    sut.update(fps_to_s(60))  # one 60 fps frame
 
     assert sut.rotation_speed == 0.25
     assert eq_within_epsilon(sut.rotation, 0.0021, 0.0001)
@@ -130,7 +130,7 @@ def test_update__turn_right():
     sut.update(1.0)  # one second
 
     assert sut.rotation_speed == 15.0
-    assert eq_within_epsilon(sut.rotation, 29.75)
+    assert eq_within_epsilon(sut.rotation, 22.5)
 
 
 def test_update__turn_left():
@@ -139,22 +139,22 @@ def test_update__turn_left():
     # turn left
     sut.on_key_press(key.LEFT, None)
 
-    sut.update(fps_to_s(90))
+    sut.update(fps_to_s(60) * 1.5)
 
     assert sut.rotation_speed == -0.375
-    assert eq_within_epsilon(sut.rotation, -0.0021, 0.0001)
+    assert eq_within_epsilon(sut.rotation, 359.9953, 0.0001)
 
-    sut.update(fps_to_s(60) * 59)  # finish this second
+    sut.update(fps_to_s(60) * 58.5)  # finish this second
 
-    sut.on_key_release(key.RIGHT, None)
+    sut.on_key_release(key.LEFT, None)
 
-    assert sut.rotation_speed == 15.0
-    assert eq_within_epsilon(sut.rotation, 14.75)
+    assert sut.rotation_speed == -15
+    assert eq_within_epsilon(sut.rotation, 352.5)
 
     sut.update(1.0)  # one second
 
-    assert sut.rotation_speed == 15.0
-    assert eq_within_epsilon(sut.rotation, 29.75)
+    assert sut.rotation_speed == -15
+    assert eq_within_epsilon(sut.rotation, 337.5)
 
 
 def skip_update__SAS():
