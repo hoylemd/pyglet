@@ -31,6 +31,7 @@ class InertialObject(pyglet.sprite.Sprite):
         self.x += self.velocity_x * dt
         self.y += self.velocity_y * dt
 
-        self.rotation += utils.normalize_degrees((self.rotation_speed * dt))
+        self.rotation += self.rotation_speed * dt
+        self.rotation = utils.normalize_degrees(self.rotation)
 
         self.loop_position()
