@@ -5,9 +5,11 @@ import game.utils as utils
 
 class InertialObject(pyglet.sprite.Sprite):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, name="", *args, **kwargs):
         super(InertialObject, self).__init__(*args, **kwargs)
 
+        self.name = name
+        self.dead = False
         self.velocity_x, self.velocity_y = 0.0, 0.0
         self.rotation_speed = 0.0
 
@@ -26,6 +28,12 @@ class InertialObject(pyglet.sprite.Sprite):
             self.y = y_max_margin
         elif self.y > y_max_margin:
             self.y = y_min_margin
+
+    def collides_with(self, other):
+        return False
+
+    def handle_collision(self, other):
+        print "collosion between %s and %s" % self.name, other.name
 
     def update(self, dt):
         self.x += self.velocity_x * dt

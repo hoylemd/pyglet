@@ -20,9 +20,10 @@ def asteroids(num_asteroids, player_position, batch=None):
             asteroid_x = random.randint(0, WINDOW_WIDTH)
             asteroid_y = random.randint(0, WINDOW_HEIGHT)
 
-        new_asteroid = InertialObject(
-            img=resources.asteroid_image, x=asteroid_x, y=asteroid_y,
-            batch=batch)
+        new_asteroid = InertialObject(name="Asteroid #" + str(i + 1),
+                                      img=resources.asteroid_image,
+                                      x=asteroid_x, y=asteroid_y,
+                                      batch=batch)
         new_asteroid.rotation = random.randint(0, 360)
 
         new_asteroid.velocity_x = random.random() * 40
@@ -35,7 +36,8 @@ def asteroids(num_asteroids, player_position, batch=None):
 
 
 def player_ship(batch=None):
-    player_ship = Player(hull_image=resources.player_image,
+    player_ship = Player(name="Player Ship",
+                         hull_image=resources.player_image,
                          engine_image=resources.engineflame_image,
                          x=WINDOW_HORIZONTAL_CENTER,
                          y=WINDOW_VERTICAL_CENTER, batch=batch)
