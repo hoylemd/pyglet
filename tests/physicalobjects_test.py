@@ -211,7 +211,18 @@ def test_InertialObject_collides_with__true():
     sut.x = 200.0
     sut.y = 300.0
 
-    collider.x = sut.x + ((sut.width + collider.width) / 2.0 + 10)
+    collider.x = sut.x + ((sut.width + collider.width) / 2.0 - 10)
     collider.y = sut.y
 
     assert sut.collides_with(collider)
+
+
+def test_InertialObject_handleCollision__main():
+    sut = InertialObject(img=resources.player_image)
+    collider = InertialObject(img=resources.asteroid_image)
+
+    assert not sut.dead
+
+    sut.handle_collision(collider)
+
+    assert sut.dead
