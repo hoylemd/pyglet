@@ -1,10 +1,10 @@
 from settings import WINDOW_WIDTH, WINDOW_HEIGHT
 from game.physicalobjects import InertialObject
-from tests.scaffolding import fixtures
+from game import resources
 
 
 def test_InertialObject_init__motionless():
-    sut = InertialObject(img=fixtures['player_image'])
+    sut = InertialObject(img=resources.player_image)
 
     assert sut.velocity_x == 0.0
     assert sut.velocity_y == 0.0
@@ -12,7 +12,7 @@ def test_InertialObject_init__motionless():
 
 
 def test_InertialObject_loop_position__origin():
-    sut = InertialObject(img=fixtures['player_image'])
+    sut = InertialObject(img=resources.player_image)
 
     assert sut.x == 0
     assert sut.y == 0
@@ -24,7 +24,7 @@ def test_InertialObject_loop_position__origin():
 
 
 def test_InertialObject_loop_position__on_screen():
-    sut = InertialObject(img=fixtures['player_image'])
+    sut = InertialObject(img=resources.player_image)
 
     sut.x = 56.3
     sut.y = 174.23
@@ -36,7 +36,7 @@ def test_InertialObject_loop_position__on_screen():
 
 
 def test_InertialObject_loop_position__off_top():
-    sut = InertialObject(img=fixtures['player_image'])
+    sut = InertialObject(img=resources.player_image)
 
     sut.x = 56.3
     sut.y = WINDOW_HEIGHT + 30.0
@@ -48,7 +48,7 @@ def test_InertialObject_loop_position__off_top():
 
 
 def test_InertialObject_loop_position__off_bottom():
-    sut = InertialObject(img=fixtures['player_image'])
+    sut = InertialObject(img=resources.player_image)
 
     sut.x = 56.3
     sut.y = -30.0
@@ -60,7 +60,7 @@ def test_InertialObject_loop_position__off_bottom():
 
 
 def test_InertialObject_loop_position__off_left():
-    sut = InertialObject(img=fixtures['player_image'])
+    sut = InertialObject(img=resources.player_image)
 
     sut.x = -30.0
     sut.y = 156.8
@@ -72,7 +72,7 @@ def test_InertialObject_loop_position__off_left():
 
 
 def test_InertialObject_loop_position__off_right():
-    sut = InertialObject(img=fixtures['player_image'])
+    sut = InertialObject(img=resources.player_image)
 
     sut.x = WINDOW_WIDTH + 30.0
     sut.y = 156.8
@@ -84,7 +84,7 @@ def test_InertialObject_loop_position__off_right():
 
 
 def test_InertialObject_update__motionless():
-    sut = InertialObject(img=fixtures['player_image'])
+    sut = InertialObject(img=resources.player_image)
 
     sut.x = 23.45
     sut.y = 123.34
@@ -99,7 +99,7 @@ def test_InertialObject_update__motionless():
 
 
 def test_InertialObject_update__forward():
-    sut = InertialObject(img=fixtures['player_image'])
+    sut = InertialObject(img=resources.player_image)
 
     sut.x = 23.45
     sut.y = 123.34
@@ -114,7 +114,7 @@ def test_InertialObject_update__forward():
 
 
 def test_InertialObject_update__diagonal():
-    sut = InertialObject(img=fixtures['player_image'])
+    sut = InertialObject(img=resources.player_image)
 
     sut.x = 23.45
     sut.y = 123.34
@@ -129,7 +129,7 @@ def test_InertialObject_update__diagonal():
 
 
 def test_InertialObject_update__partial_dt():
-    sut = InertialObject(img=fixtures['player_image'])
+    sut = InertialObject(img=resources.player_image)
 
     sut.x = 23.45
     sut.y = 123.34
@@ -144,7 +144,7 @@ def test_InertialObject_update__partial_dt():
 
 
 def test_InertialObject_update__motionless_rotation():
-    sut = InertialObject(img=fixtures['player_image'])
+    sut = InertialObject(img=resources.player_image)
 
     sut.rotation = 0.0
 
@@ -156,7 +156,7 @@ def test_InertialObject_update__motionless_rotation():
 
 
 def test_InertialObject_update__positive_rotation():
-    sut = InertialObject(img=fixtures['player_image'])
+    sut = InertialObject(img=resources.player_image)
 
     sut.rotation = 0.0
 
@@ -168,7 +168,7 @@ def test_InertialObject_update__positive_rotation():
 
 
 def test_InertialObject_update__negative_rotation():
-    sut = InertialObject(img=fixtures['player_image'])
+    sut = InertialObject(img=resources.player_image)
 
     sut.rotation = 0.0
 
@@ -180,7 +180,7 @@ def test_InertialObject_update__negative_rotation():
 
 
 def test_InertialObject_update__rotation_partial_dt():
-    sut = InertialObject(img=fixtures['player_image'])
+    sut = InertialObject(img=resources.player_image)
 
     sut.rotation = 0.0
 
@@ -189,3 +189,29 @@ def test_InertialObject_update__rotation_partial_dt():
     sut.update(0.5)
 
     assert sut.rotation == 355.0
+
+
+def test_InertialObject_collides_with__false():
+    sut = InertialObject(img=resources.player_image)
+    collider = InertialObject(img=resources.asteroid_image)
+
+    sut.x = 200.0
+    sut.y = 300.0
+
+    collider.x = sut.x + ((sut.width + collider.width) / 2.0 + 10)
+    collider.y = sut.y
+
+    assert not sut.collides_with(collider)
+
+
+def test_InertialObject_collides_with__true():
+    sut = InertialObject(img=resources.player_image)
+    collider = InertialObject(img=resources.asteroid_image)
+
+    sut.x = 200.0
+    sut.y = 300.0
+
+    collider.x = sut.x + ((sut.width + collider.width) / 2.0 + 10)
+    collider.y = sut.y
+
+    assert sut.collides_with(collider)
