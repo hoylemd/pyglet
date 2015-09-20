@@ -74,3 +74,7 @@ class Player(InertialObject):
             self.velocity_y = 0.0
             self.rotation = 0.0
             self.rotation_speed = 0.0
+
+    def delete(self):
+        self.engineflame.delete()
+        super(Player, self).delete()
