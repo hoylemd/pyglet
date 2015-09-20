@@ -5,7 +5,8 @@ from tests.scaffolding import fps_to_s, eq_within_epsilon
 
 
 def test_init__initial_values():
-    sut = Player(img=resources.player_image)
+    sut = Player(hull_image=resources.player_image,
+                 engine_image=resources.engineflame_image)
 
     assert sut.thrust == 200.0
     assert sut.maneuvering_thrust == 360.0
@@ -18,8 +19,9 @@ def test_init__initial_values():
 
 
 def test_init__specified_values():
-    sut = Player(img=resources.player_image, x=123.4, y=421.54, thrust=150.0,
-                 maneuvering_thrust=500.0)
+    sut = Player(hull_image=resources.player_image,
+                 engine_image=resources.engineflame_image, x=123.4, y=421.54,
+                 thrust=150.0, maneuvering_thrust=500.0)
 
     assert sut.thrust == 150.0
     assert sut.maneuvering_thrust == 500.0
@@ -32,8 +34,10 @@ def test_init__specified_values():
 
 
 def set_up_sluggish_player():
-    return Player(img=resources.player_image, x=200.0, y=300.0, thrust=10.0,
-                  maneuvering_thrust=15.0)
+    return Player(hull_image=resources.player_image,
+                  engine_image=resources.engineflame_image,
+                  x=200.0, y=300.0,
+                  thrust=10.0, maneuvering_thrust=15.0)
 
 
 def test_init__sluggish():
@@ -169,3 +173,19 @@ def test_update__thrust():
     assert eq_within_epsilon(sut.velocity_y, 0.0)
     assert eq_within_epsilon(sut.x, 221.22)
     assert eq_within_epsilon(sut.y, 321.22)
+
+
+def test_update__thrust_shows_engineflame():
+    sut = set_up_sluggish_player()
+
+    assert sut.engineflame.visible is False
+
+    sut.key_handler.on_key_press(key.UP, None)
+    sut.update(1.0)
+
+    assert sut.engineflame.visible is True
+
+    sut.key_handler.on_key_release(key.UP, None)
+    sut.update(1.0)
+
+    assert sut.engineflame.visible is False
