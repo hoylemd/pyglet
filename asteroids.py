@@ -23,6 +23,7 @@ lives = load.player_lives(3, main_batch)
 game_objects = [player_ship] + asteroids
 
 game_window.push_handlers(player_ship)
+game_window.push_handlers(player_ship.key_handler)
 
 
 @game_window.event
