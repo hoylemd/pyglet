@@ -59,15 +59,19 @@ class Player(InertialObject):
             if (direction * modified_rot_speed) < 0:
                 modified_rot_speed = 0.0
 
-        # interpolate accellerated rotation change
+        # interpolate accelerated rotation change
         self.rotation_speed = (modified_rot_speed + self.rotation_speed) / 2.0
 
+        modified_vx = self.velocity_x
+        modified_vy = self.velocity_y
         if self.keys['up']:
             angle_radians = math.radians(self.rotation)
-            force_x = math.sin(angle_radians) * propulsive_dv
-            force_y = math.cos(angle_radians) * propulsive_dv
-            self.velocity_x += force_x
-            self.velocity_y += force_y
+            modified_vx += math.sin(angle_radians) * propulsive_dv
+            modified_vy += math.cos(angle_radians) * propulsive_dv
+
+        # iterpolate accelerated velocity change
+        self.velocity_x = (modified_vx + self.velocity_x) / 2.0
+        self.velocity_y = (modified_vy + self.velocity_y) / 2.0
 
         if self.signals['recenter']:
             self.x = self.center_x
@@ -81,3 +85,5 @@ class Player(InertialObject):
         super(Player, self).update(dt)
 
         self.rotation_speed = modified_rot_speed
+        self.velocity_x = modified_vx
+        self.velocity_y = modified_vy

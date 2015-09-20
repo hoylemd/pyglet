@@ -193,6 +193,46 @@ def test_update__SAS():
     assert eq_within_epsilon(sut.rotation, 20.62)
 
 
+def test_update__thrust():
+    sut = set_up_sluggish_player()
+
+    # artificially set rotation
+    sut.rotation = 45.0
+
+    assert sut.velocity_x == 0.0
+    assert sut.velocity_y == 0.0
+    assert sut.x == 200.0
+    assert sut.y == 300.0
+
+    # engage thrust
+    sut.on_key_press(key.UP, None)
+    sut.update(1.0)
+
+    assert eq_within_epsilon(sut.velocity_x, 7.08)
+    assert eq_within_epsilon(sut.velocity_y, 7.08)
+    assert eq_within_epsilon(sut.x, 203.54)
+    assert eq_within_epsilon(sut.y, 303.54)
+
+    # stop thrust and drift
+    sut.on_key_release(key.UP, None)
+    sut.update(2.0)
+
+    assert eq_within_epsilon(sut.velocity_x, 7.08)
+    assert eq_within_epsilon(sut.velocity_y, 7.08)
+    assert eq_within_epsilon(sut.x, 217.68)
+    assert eq_within_epsilon(sut.y, 317.68)
+
+    # stop altogether
+    sut.rotation += 180.0
+    sut.on_key_press(key.UP, None)
+    sut.update(1.0)
+
+    assert eq_within_epsilon(sut.velocity_x, 0.0)
+    assert eq_within_epsilon(sut.velocity_y, 0.0)
+    assert eq_within_epsilon(sut.x, 221.22)
+    assert eq_within_epsilon(sut.y, 321.22)
+
+
 def skip_other_stuff():
     sut = set_up_sluggish_player()
 
