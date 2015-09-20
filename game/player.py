@@ -1,13 +1,17 @@
 import math
+from pyglet.sprite import Sprite
 from pyglet.window import key
 from physicalobjects import InertialObject
 
 
 class Player(InertialObject):
-    def __init__(self, x=0.0, y=0.0, thrust=200.0,
-                 maneuvering_thrust=360.0, *args, **kwargs):
+    def __init__(self, hull_image=None, engine_image=None, x=0.0, y=0.0,
+                 thrust=200.0, maneuvering_thrust=360.0, *args, **kwargs):
 
-        super(Player, self).__init__(x=x, y=y, *args, **kwargs)
+        super(Player, self).__init__(img=hull_image, x=x, y=y, *args, **kwargs)
+
+        self.engineflame = Sprite(img=engine_image, x=x, y=y, *args, **kwargs)
+        self.engineflame.visible = False
 
         self.thrust = thrust
         self.maneuvering_thrust = maneuvering_thrust
@@ -44,12 +48,20 @@ class Player(InertialObject):
             angle_radians = math.radians(self.rotation)
             modified_vx += math.sin(angle_radians) * propulsive_dv
             modified_vy += math.cos(angle_radians) * propulsive_dv
+            self.engineflame.visible = True
+        else:
+            self.engineflame.visible = False
 
         # iterpolate accelerated velocity change
         self.velocity_x = (modified_vx + self.velocity_x) / 2.0
         self.velocity_y = (modified_vy + self.velocity_y) / 2.0
 
         super(Player, self).update(dt)
+
+        # update subsprites
+        self.engineflame.x = self.x
+        self.engineflame.y = self.y
+        self.engineflame.rotation = self.rotation
 
         self.rotation_speed = modified_rot_speed
         self.velocity_x = modified_vx
