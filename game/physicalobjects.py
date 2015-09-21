@@ -13,6 +13,8 @@ class InertialObject(pyglet.sprite.Sprite):
         self.velocity_x, self.velocity_y = 0.0, 0.0
         self.rotation_speed = 0.0
 
+        self.new_objects = []
+
     def loop_position(self):
         x_min_margin = - self.image.width / 2.0
         y_min_margin = - self.image.height / 2.0
