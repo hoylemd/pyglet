@@ -2,7 +2,7 @@ import pyglet
 import random
 import resources
 import utils
-from physicalobjects import InertialObject
+from asteroid import Asteroid
 from player import Player
 from settings import (
     WINDOW_WIDTH, WINDOW_HEIGHT,
@@ -20,11 +20,10 @@ def asteroids(num_asteroids, player_position, batch=None):
             asteroid_x = random.randint(0, WINDOW_WIDTH)
             asteroid_y = random.randint(0, WINDOW_HEIGHT)
 
-        new_asteroid = InertialObject(name="Asteroid #" + str(i + 1),
-                                      vulnerable=True, damaging=True,
-                                      img=resources.asteroid_image,
-                                      x=asteroid_x, y=asteroid_y,
-                                      batch=batch)
+        new_asteroid = Asteroid(name="Asteroid #" + str(i + 1),
+                                img=resources.asteroid_image,
+                                x=asteroid_x, y=asteroid_y,
+                                batch=batch)
         new_asteroid.rotation = random.randint(0, 360)
 
         new_asteroid.velocity_x = random.random() * 40

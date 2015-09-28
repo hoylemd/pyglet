@@ -9,6 +9,7 @@ def test_init():
 
     assert sut is not None
     assert sut.x == 100.0
+    assert sut.y == 200.0
 
 
 @patch('game.projectile.clock')
