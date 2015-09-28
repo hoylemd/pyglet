@@ -1,4 +1,5 @@
 from mock import MagicMock
+import pyglet
 from pyglet.window import key
 from game.player import Player
 from game import resources
@@ -9,8 +10,13 @@ def test_init__initial_values():
     sut = Player(hull_image=resources.player_image,
                  engine_image=resources.engineflame_image)
 
+    assert isinstance(sut.engineflame, pyglet.sprite.Sprite)
+    assert not sut.engineflame.visible
+
     assert sut.thrust == 200.0
     assert sut.maneuvering_thrust == 360.0
+
+    assert sut.weapon_projectile_speed == 700.0
 
     assert sut.x == 0.0
     assert sut.y == 0.0
@@ -22,10 +28,16 @@ def test_init__initial_values():
 def test_init__specified_values():
     sut = Player(hull_image=resources.player_image,
                  engine_image=resources.engineflame_image, x=123.4, y=421.54,
-                 thrust=150.0, maneuvering_thrust=500.0)
+                 thrust=150.0, maneuvering_thrust=500.0,
+                 weapon_projectile_speed=950.0)
+
+    assert isinstance(sut.engineflame, pyglet.sprite.Sprite)
+    assert not sut.engineflame.visible
 
     assert sut.thrust == 150.0
     assert sut.maneuvering_thrust == 500.0
+
+    assert sut.weapon_projectile_speed == 950.0
 
     assert sut.x == 123.4
     assert sut.y == 421.54

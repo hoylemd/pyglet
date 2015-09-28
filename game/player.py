@@ -2,12 +2,13 @@ import math
 from pyglet.sprite import Sprite
 from pyglet.window import key
 from physicalobjects import InertialObject
+from projectile import Projectile
 
 
 class Player(InertialObject):
     def __init__(self, name="", hull_image=None, engine_image=None,
                  x=0.0, y=0.0, thrust=200.0, maneuvering_thrust=360.0,
-                 *args, **kwargs):
+                 weapon_projectile_speed=700.0, *args, **kwargs):
 
         super(Player, self).__init__(img=hull_image, name=name, x=x, y=y,
                                      *args, **kwargs)
