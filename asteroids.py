@@ -31,16 +31,8 @@ def on_draw():
     game_window.clear()
     main_batch.draw()
 
-
 def update(dt):
     new_objects = []
-
-    # update each object
-    for obj in game_objects:
-        obj.update(dt)
-        if obj.new_objects:
-            new_objects.extend(obj.new_objects)
-            obj.new_objects = []
 
     # check collisions
     total_objects = len(game_objects)
@@ -54,6 +46,12 @@ def update(dt):
                     first_object.handle_collision(second_object)
                     second_object.handle_collision(first_object)
 
+    # update each object
+    for obj in game_objects:
+        obj.update(dt)
+        if obj.new_objects:
+            new_objects.extend(obj.new_objects)
+            obj.new_objects = []
     # remove dead objects
     for to_remove in [obj for obj in game_objects if obj.dead]:
         to_remove.delete()

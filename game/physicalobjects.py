@@ -48,7 +48,7 @@ class InertialObject(pyglet.sprite.Sprite):
         return (proximity and damaged)
 
     def handle_collision(self, other):
-        if other.__class__ != self.__class__:
+        if type(other) != type(self):
             self.die()
 
     def update(self, dt):
@@ -59,3 +59,11 @@ class InertialObject(pyglet.sprite.Sprite):
         self.rotation = utils.normalize_degrees(self.rotation)
 
         self.loop_position()
+
+    def __str__(self):
+        form = "%s named '%s': p:(%.2f, %.2f) v:(%.2f, %.2f), r:%.2f, dr:%.2f"
+        fields = (type(self).__name__, self.name, self.x, self.y,
+                  self.velocity_x, self.velocity_y, self.rotation,
+                  self.rotation_speed)
+
+        return form.format(fields)

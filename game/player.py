@@ -31,10 +31,11 @@ class Player(InertialObject):
 
     def fire(self):
         angle_radians = math.radians(self.rotation)
-        ship_radius = self.image.width/2
+        ship_radius = self.image.width/2 + 5.0
         bullet_x = self.x + math.sin(angle_radians) * ship_radius
-        bullet_y = self.y + math.cos(angle_radians) * ship_radius
-        new_bullet = Projectile(img=self.weapon_projectile_image,
+        bullet_y = self.y + (math.cos(angle_radians) * ship_radius)
+        new_bullet = Projectile(name="bullet",
+                                img=self.weapon_projectile_image,
                                 x=bullet_x, y=bullet_y, batch=self.batch)
         new_bullet.velocity_x = (
             self.velocity_x +
