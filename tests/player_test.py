@@ -1,3 +1,4 @@
+from mock import MagicMock
 from pyglet.window import key
 from game.player import Player
 from game import resources
@@ -189,3 +190,14 @@ def test_update__thrust_shows_engineflame():
     sut.update(1.0)
 
     assert sut.engineflame.visible is False
+
+
+def test_key_handler__space_calls_fire():
+    sut = set_up_sluggish_player()
+
+    sut.fire = MagicMock()
+
+    sut.key_handler.on_key_press(key.SPACE, None)
+    sut.update(1.0)
+
+    assert sut.fire.called
