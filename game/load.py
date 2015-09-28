@@ -40,7 +40,9 @@ def player_ship(batch=None):
                          hull_image=resources.player_image,
                          engine_image=resources.engineflame_image,
                          x=WINDOW_HORIZONTAL_CENTER,
-                         y=WINDOW_VERTICAL_CENTER, batch=batch)
+                         y=WINDOW_VERTICAL_CENTER,
+                         weapon_projectile_image=resources.bullet_image,
+                         weapon_projectile_speed=700.0, batch=batch)
     return player_ship
 
 

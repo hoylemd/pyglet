@@ -8,7 +8,8 @@ from projectile import Projectile
 class Player(InertialObject):
     def __init__(self, name="", hull_image=None, engine_image=None,
                  x=0.0, y=0.0, thrust=200.0, maneuvering_thrust=360.0,
-                 weapon_projectile_speed=700.0, *args, **kwargs):
+                 weapon_projectile_image=None, weapon_projectile_speed=700.0,
+                 *args, **kwargs):
 
         super(Player, self).__init__(img=hull_image, name=name, x=x, y=y,
                                      *args, **kwargs)
@@ -19,6 +20,7 @@ class Player(InertialObject):
         self.thrust = thrust
         self.maneuvering_thrust = maneuvering_thrust
 
+        self.weapon_projectile_image = weapon_projectile_image
         self.weapon_projectile_speed = weapon_projectile_speed
 
         self.center_x = x
@@ -27,7 +29,12 @@ class Player(InertialObject):
         self.key_handler = key.KeyStateHandler()
 
     def fire(self):
-        print "Bang!"
+        angle_radians = math.radians(self.rotation)
+        ship_radius = self.image.width/2
+        bullet_x = self.x + math.cos(angle_radians) * ship_radius
+        bullet_y = self.y + math.sin(angle_radians) * ship_radius
+        new_bullet = Projectile(img=self.weapon_projectile_image,
+                                x=bullet_x, y=bullet_y, batch=self.batch)
 
     def update(self, dt):
         rotational_dv = self.maneuvering_thrust * dt
