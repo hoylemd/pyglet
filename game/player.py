@@ -23,6 +23,9 @@ class Player(InertialObject):
 
         self.key_handler = key.KeyStateHandler()
 
+    def fire(self):
+        print "Bang!"
+
     def update(self, dt):
         rotational_dv = self.maneuvering_thrust * dt
         propulsive_dv = self.thrust * dt
@@ -40,6 +43,8 @@ class Player(InertialObject):
             modified_rot_speed = direction * (abs_rotation - rotational_dv)
             if (direction * modified_rot_speed) < 0:
                 modified_rot_speed = 0.0
+        if self.key_handler[key.SPACE]:
+            self.fire()
 
         # interpolate accelerated rotation change
         self.rotation_speed = (modified_rot_speed + self.rotation_speed) / 2.0
@@ -69,7 +74,7 @@ class Player(InertialObject):
         self.velocity_x = modified_vx
         self.velocity_y = modified_vy
 
-        if self.key_handler[key.SPACE]:
+        if self.key_handler[key.C]:
             self.x = self.center_x
             self.y = self.center_y
             self.velocity_x = 0.0
