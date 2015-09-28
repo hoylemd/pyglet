@@ -19,6 +19,8 @@ class Player(InertialObject):
         self.thrust = thrust
         self.maneuvering_thrust = maneuvering_thrust
 
+        self.weapon_projectile_speed = weapon_projectile_speed
+
         self.center_x = x
         self.center_y = y
 
