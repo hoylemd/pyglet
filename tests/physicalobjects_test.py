@@ -192,9 +192,21 @@ def test_InertialObject_update__rotation_partial_dt():
     assert sut.rotation == 355.0
 
 
-def test_InertialObject_collides_with__false():
-    sut = InertialObject(img=resources.player_image)
-    collider = InertialObject(img=resources.asteroid_image)
+class Collider(InertialObject):
+    def __init__(self, *args, **kwargs):
+        super(Collider, self).__init__(img=resources.player_image,
+                                       damaging=True, *args, **kwargs)
+
+
+class Target(InertialObject):
+    def __init__(self, *args, **kwargs):
+        super(Target, self).__init__(img=resources.player_image,
+                                     vulnerable=True, *args, **kwargs)
+
+
+def test_InertialObject_collides_with__no_collision():
+    sut = Target()
+    collider = Collider()
 
     sut.x = 200.0
     sut.y = 300.0
@@ -205,9 +217,35 @@ def test_InertialObject_collides_with__false():
     assert not sut.collides_with(collider)
 
 
-def test_InertialObject_collides_with__true():
-    sut = InertialObject(img=resources.player_image)
-    collider = InertialObject(img=resources.asteroid_image)
+def test_InertialObject_collides_with__collision_not_vulnerable():
+    sut = Collider()
+    collider = Collider()
+
+    sut.x = 200.0
+    sut.y = 300.0
+
+    collider.x = sut.x + ((sut.width + collider.width) / 2.0 - 10)
+    collider.y = sut.y
+
+    assert not sut.collides_with(collider)
+
+
+def test_InertialObject_collides_with__collision_not_damaging():
+    sut = Target()
+    collider = Target()
+
+    sut.x = 200.0
+    sut.y = 300.0
+
+    collider.x = sut.x + ((sut.width + collider.width) / 2.0 - 10)
+    collider.y = sut.y
+
+    assert not sut.collides_with(collider)
+
+
+def test_InertialObject_collides_with__collision_with_flags():
+    sut = Target()
+    collider = Collider()
 
     sut.x = 200.0
     sut.y = 300.0
@@ -228,14 +266,9 @@ def test_InertialObject_die():
     assert sut.dead
 
 
-class AlternateObject(InertialObject):
-    def __init__(self, *args, **kwargs):
-        super(AlternateObject, self).__init__(*args, **kwargs)
-
-
 def test_InertialObject_handleCollision__calls_die():
-    sut = InertialObject(img=resources.player_image)
-    collider = AlternateObject(img=resources.asteroid_image)
+    sut = Target()
+    collider = Collider()
 
     sut.die = MagicMock()
 

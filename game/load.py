@@ -21,6 +21,7 @@ def asteroids(num_asteroids, player_position, batch=None):
             asteroid_y = random.randint(0, WINDOW_HEIGHT)
 
         new_asteroid = InertialObject(name="Asteroid #" + str(i + 1),
+                                      vulnerable=True, damaging=True,
                                       img=resources.asteroid_image,
                                       x=asteroid_x, y=asteroid_y,
                                       batch=batch)

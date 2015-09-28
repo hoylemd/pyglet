@@ -11,7 +11,8 @@ class Player(InertialObject):
                  weapon_projectile_image=None, weapon_projectile_speed=700.0,
                  *args, **kwargs):
 
-        super(Player, self).__init__(img=hull_image, name=name, x=x, y=y,
+        super(Player, self).__init__(img=hull_image, name=name,
+                                     vulnerable=True, x=x, y=y,
                                      *args, **kwargs)
 
         self.engineflame = Sprite(img=engine_image, x=x, y=y, *args, **kwargs)

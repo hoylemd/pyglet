@@ -5,11 +5,14 @@ import game.utils as utils
 
 class InertialObject(pyglet.sprite.Sprite):
 
-    def __init__(self, name="", *args, **kwargs):
+    def __init__(self, name="", vulnerable=False, damaging=False,
+                 *args, **kwargs):
         super(InertialObject, self).__init__(*args, **kwargs)
 
         self.name = name
         self.dead = False
+        self.vulnerable = vulnerable
+        self.damaging = damaging
         self.velocity_x, self.velocity_y = 0.0, 0.0
         self.rotation_speed = 0.0
 
@@ -38,7 +41,11 @@ class InertialObject(pyglet.sprite.Sprite):
         collision_distance = (self.width / 2.0) + (other.width / 2.0)
         actual_distance = utils.distance(self.position, other.position)
 
-        return (actual_distance <= collision_distance)
+        proximity = actual_distance <= collision_distance
+
+        damaged = self.vulnerable and other.damaging
+
+        return (proximity and damaged)
 
     def handle_collision(self, other):
         if other.__class__ != self.__class__:
