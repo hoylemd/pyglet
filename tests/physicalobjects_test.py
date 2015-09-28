@@ -1,6 +1,7 @@
 from settings import WINDOW_WIDTH, WINDOW_HEIGHT
 from game.physicalobjects import InertialObject
 from game import resources
+from mock import MagicMock
 
 
 def test_InertialObject_init__motionless():
@@ -217,12 +218,22 @@ def test_InertialObject_collides_with__true():
     assert sut.collides_with(collider)
 
 
-def test_InertialObject_handleCollision__main():
+def test_InertialObject_die():
     sut = InertialObject(img=resources.player_image)
-    collider = InertialObject(img=resources.asteroid_image)
 
     assert not sut.dead
 
-    sut.handle_collision(collider)
+    sut.die()
 
     assert sut.dead
+
+
+def test_InertialObject_handleCollision__calls_die():
+    sut = InertialObject(img=resources.player_image)
+    collider = InertialObject(img=resources.asteroid_image)
+
+    sut.die = MagicMock()
+
+    sut.handle_collision(collider)
+
+    assert sut.die.called
