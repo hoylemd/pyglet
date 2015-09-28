@@ -31,7 +31,7 @@ class InertialObject(pyglet.sprite.Sprite):
         elif self.y > y_max_margin:
             self.y = y_min_margin
 
-    def die(self):
+    def die(self, dt=0.0):
         self.dead = True
 
     def collides_with(self, other):
@@ -41,7 +41,8 @@ class InertialObject(pyglet.sprite.Sprite):
         return (actual_distance <= collision_distance)
 
     def handle_collision(self, other):
-        self.die()
+        if other.__class__ != self.__class__:
+            self.die()
 
     def update(self, dt):
         self.x += self.velocity_x * dt

@@ -228,7 +228,23 @@ def test_InertialObject_die():
     assert sut.dead
 
 
+class AlternateObject(InertialObject):
+    def __init__(self, *args, **kwargs):
+        super(AlternateObject, self).__init__(*args, **kwargs)
+
+
 def test_InertialObject_handleCollision__calls_die():
+    sut = InertialObject(img=resources.player_image)
+    collider = AlternateObject(img=resources.asteroid_image)
+
+    sut.die = MagicMock()
+
+    sut.handle_collision(collider)
+
+    assert sut.die.called
+
+
+def test_InertialObject_handleCollision__ignores_same_object_type():
     sut = InertialObject(img=resources.player_image)
     collider = InertialObject(img=resources.asteroid_image)
 
@@ -236,4 +252,4 @@ def test_InertialObject_handleCollision__calls_die():
 
     sut.handle_collision(collider)
 
-    assert sut.die.called
+    assert not sut.die.called
